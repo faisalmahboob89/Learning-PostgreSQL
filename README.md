@@ -9,6 +9,16 @@
 * [Dropping Table](#dropping-table)
 * [SELECT FROM](#select-from)
 * [ORDER BY](#order-by)
+* [DISTINCT](#distinct)
+* [WHERE](#where)
+* [WHERE and AND](#where-and-and)
+* [Comparison](#comparison)
+* [LIMIT, OFFSET and FETCH](#limit-offset-and-fetch)
+* [LIKE and ILIKE](#like-and-ilike)
+* [IN](#in)
+* [BETWEEN](#between)
+* [GROUP BY](#group-by)
+* [GROUP BY HAVING](#group-by-having)
 
 # Introduction to PostgreSQL:
 PostgreSQL is an open source relational database management system (DBMS) developed by a worldwide team of volunteers. PostgreSQL is not controlled by any corporation or other private entity and the source code is available free of charge.
@@ -153,5 +163,130 @@ The default order is **asc**. For showing data in descending order, we have to t
 SELECT * FROM person ORDER BY id ASC;
 SELECT * FROM person ORDER BY country_of_birth DESC;
 SELECT * FROM person ORDER BY first_name;
+```
+
+## DISTINCT:
+We can select separate columns specifically with the help of a DISTINCT operator. The following command will show the data of a single column only-
+```
+SELECT DISTINCT country_of_birth FROM person ORDER BY country_of_birth;
+```
+## WHERE:
+We can filter the rows with the help of the WHERE clause. 
+```
+SELECT * FROM person WHERE gender = 'Female';
+```
+## WHERE and AND:
+We can filter the rows with multiple options by using the WHERE and AND clause.
+```
+SELECT * FROM person WHERE gender = 'Male' AND country_of_birth = 'China';
+SELECT * FROM person WHERE gender = 'Female' AND (country_of_birth = 'China' OR country_of_birth = 'Poland');
+SELECT * FROM person WHERE gender = 'Female' AND (country_of_birth = 'China' OR country_of_birth = 'Poland') AND last_name = 'Pietersma';
+```
+## Comparison:
+We can simply perform comparisons with **>,<,=** opertaors and see the output in true or false.
+```
+SELECT 1>=2;
+SELECT 1=2;
+SELECT 1<=1;
+SELECT 1 <> 2;
+SELECT 'PRESENT' = 'present';
+SELECT 'PRESENT' = 'PRESENT';
+SELECT 'PRESENT' = 'PRESENTS';
+```
+## LIMIT, OFFSET and FETCH:
+We can view a fixed limited number of data from the table by using LIMIT operation.
+```
+SELECT * FROM person LIMIT 15;
+```
+The above command will display the first 15 data from the table. For viewing data from a specific number with a limit, use the OFFSET operation.
+Follow the below command for this:
+```
+SELECT * FROM person OFFSET 15 LIMIT 15;
+```
+We can also use the OFFSET command for viewing the rest of the data from a specific serial.
+```
+SELECT * FROM person OFFSET 15;
+```
+The FETCH operation can be used instead of LIMIT for displaying data from a specific serial.
+```
+SELECT * FROM person OFFSET 15 FETCH FIRST 13 ROW ONLY;
+```
+
+## LIKE and ILIKE:
+The PostgreSQL LIKE operator is used query data using pattern matching techniques. Its result include strings that are case-sensitive and follow the mentioned pattern.
+It is important to know that PostgreSQL provides with 2 special wildcard characters for the purpose of patterns matching as below:
+
+- Percent ( %) for matching any sequence of characters
+- Underscore ( _ ) for matching any single character
+
+Suppose, we want to find out all the data of person table who has the email id with .com.
+Execute the following command:
+```
+SELECT * FROM person WHERE email LIKE '%.com';
+```
+```
+Query:
+SELECT * FROM person WHERE email LIKE '%@jigsy.com';
+```
+```
+Query:
+SELECT * FROM person WHERE email LIKE '%@google.%';
+```
+```
+Query:
+SELECT * FROM person WHERE email LIKE '______@%';
+```
+
+Some more queries are:
+```
+SELECT * FROM person WHERE country_of_birth LIKE 'F%';
+
+SELECT * FROM person WHERE country_of_birth LIKE 'f%';
+```
+#### Notes:
+- LIKE and ILIKE are used for pattern matching in PostgreSQL. LIKE is the SQL standard while ILIKE is a useful extension made by PostgreSQL
+- ILIKE is similar to LIKE in all aspects except in one thing. It performs a case in-sensitive matching.
+```
+Example:
+SELECT * FROM person WHERE country_of_birth ILIKE 'f%';
+```
+
+## IN:
+The PostgreSQL IN condition is used to help reduce the use of multiple OR conditions in a SELECT, INSERT, UPDATE, or DELETE statement.
+```
+Example:
+SELECT * FROM person WHERE country_of_birth IN ('China', 'France', 'Portugal');
+SELECT * FROM person WHERE country_of_birth IN ('China', 'France', 'Portugal') ORDER BY country_of_birth;
+```
+
+## BETWEEN:
+The PostgreSQL BETWEEN condition is used to retrieve values within a range in a SELECT, INSERT, UPDATE or DELETE statement.
+```
+Example:
+SELECT * FROM person WHERE date_of_birth BETWEEN DATE '2020-01-01' AND '2020-06-11';
+```
+This query will show the data of persons who was born between the dates 2020-01-01 and 2020-06-11.
+
+
+## GROUP BY:
+The GROUP BY clause allows to group our data based on column. For example, we want to see the number of persons from each country from the **person** table. Execute the following queries for this operation:
+```
+SELECT country_of_birth, COUNT(*) FROM person GROUP BY country_of_birth;
+```
+-This command will display country names with the number of person from each of those countries.
+
+```
+SELECT country_of_birth, COUNT(*) FROM person GROUP BY country_of_birth ORDER BY country_of_birth;
+```
+
+-This command will display country names along with total number of persons from those in an order.
+
+## GROUP BY HAVING:
+The **GROUP BY HAVING** clause allows to do an extra filtering after we perform the aggregation(such as **count**). The **HAVING** keyword works with **GROUP BY**. Suppose, we need to find out the country names having at least/at most 5 people and number of people from those countries in the table. Then we will perform the following queries:
+
+```
+SELECT country_of_birth, COUNT(*) FROM person GROUP BY country_of_birth HAVING COUNT(*) <3 ORDER BY country_of_birth;
+SELECT country_of_birth, COUNT(*) FROM person GROUP BY country_of_birth HAVING COUNT(*) >50 ORDER BY country_of_birth;
+SELECT country_of_birth, COUNT(*) FROM person GROUP BY country_of_birth HAVING COUNT(*) >=100 ORDER BY country_of_birth;
 ```
 
