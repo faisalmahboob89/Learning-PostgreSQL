@@ -19,6 +19,10 @@
 * [BETWEEN](#between)
 * [GROUP BY](#group-by)
 * [GROUP BY HAVING](#group-by-having)
+* [Calculating MAX,MIN and AVERAGE](#calculating-max-min-and-average)
+* [SUM](#sum)
+* [Basic Arithmetic Operators](#basic-arithmetic-operators)
+
 
 # Introduction to PostgreSQL:
 PostgreSQL is an open source relational database management system (DBMS) developed by a worldwide team of volunteers. PostgreSQL is not controlled by any corporation or other private entity and the source code is available free of charge.
@@ -288,5 +292,40 @@ The **GROUP BY HAVING** clause allows to do an extra filtering after we perform 
 SELECT country_of_birth, COUNT(*) FROM person GROUP BY country_of_birth HAVING COUNT(*) <3 ORDER BY country_of_birth;
 SELECT country_of_birth, COUNT(*) FROM person GROUP BY country_of_birth HAVING COUNT(*) >50 ORDER BY country_of_birth;
 SELECT country_of_birth, COUNT(*) FROM person GROUP BY country_of_birth HAVING COUNT(*) >=100 ORDER BY country_of_birth;
+```
+
+## Calculating MAX,MIN and AVERAGE:
+Suppose we have another table named car in the test database and this table has id, make, model, price columns.
+If we want to see the Maximum, Minimum and Average price of the cars in the table, let's perform the following queries.
+
+```
+SELECT MAX(price) FROM car;
+SELECT MIN(price) FROM car;
+SELECT AVG(price) FROM car;
+SELECT ROUND(AVG(price)) FROM car;
+SELECT make,model, MIN(PRICE) FROM car GROUP BY make,model;
+SELECT make,MAX(PRICE) FROM car GROUP BY make;
+SELECT make,AVG(PRICE) FROM car GROUP BY make;
+SELECT make,ROUND(AVG(PRICE)) FROM car GROUP BY make;
+```
+## SUM:
+```
+SELECT SUM(price) FROM car;
+SELECT make, model, SUM(price) FROM car GROUP BY make, model;
+```
+
+This query will show the total price of all the cars of each model from every brand.
+
+
+
+## Basic Arithmetic Operators:
+```
+SELECT 10 + 2;
+SELECT 25 - 14;
+SELECT 8 * 4;
+SELECT 55 / 11;
+SELECT 5 ^ 3;
+SELECT 6!;
+SELECT 20 % 7;
 ```
 
