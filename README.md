@@ -19,7 +19,7 @@
 * [BETWEEN](#between)
 * [GROUP BY](#group-by)
 * [GROUP BY HAVING](#group-by-having)
-* [Calculating MAX,MIN and AVERAGE](#calculating-max-min-and-average)
+* [Calculating MAX, MIN and AVERAGE](#calculating-max-min-and-average)
 * [SUM](#sum)
 * [Basic Arithmetic Operators](#basic-arithmetic-operators)
 
@@ -294,7 +294,7 @@ SELECT country_of_birth, COUNT(*) FROM person GROUP BY country_of_birth HAVING C
 SELECT country_of_birth, COUNT(*) FROM person GROUP BY country_of_birth HAVING COUNT(*) >=100 ORDER BY country_of_birth;
 ```
 
-## Calculating MAX,MIN and AVERAGE:
+## Calculating MAX, MIN and AVERAGE:
 Suppose we have another table named car in the test database and this table has id, make, model, price columns.
 If we want to see the Maximum, Minimum and Average price of the cars in the table, let's perform the following queries.
 
