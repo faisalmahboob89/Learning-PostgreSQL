@@ -328,5 +328,5 @@ SELECT 5 ^ 3;
 SELECT 6!;
 SELECT 20 % 7;
 ```
-To be continued
+To be continued...
 
